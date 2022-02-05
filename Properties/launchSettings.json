@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ScreenTime (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ScreenTime (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
