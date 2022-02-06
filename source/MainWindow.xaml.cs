@@ -1,5 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
+using ScreenTime.Activity;
 using System;
+using System.Text.Json;
 using System.Timers;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -12,17 +14,18 @@ namespace ScreenTime
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private ActivityMonitor _monitor;
+        private ActivityTracker _activityTracker;
         private DispatcherTimer _timer;
 
         public MainWindow()
         {
             this.InitializeComponent();
 
-            _monitor = new ActivityMonitor();
+            var activityMonitor = new ActivityMonitor();
+            _activityTracker = new ActivityTracker(activityMonitor);
 
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(100);
+            _timer.Interval = TimeSpan.FromSeconds(5);
             _timer.Tick += CheckActivity;
             _timer.Start();
         }
@@ -34,8 +37,8 @@ namespace ScreenTime
 
         private void CheckActivity(object sender, object e)
         {
-            text.Text = _monitor.IsActive.ToString();
-            _monitor.ResetActive();
+            var jsonText = JsonSerializer.Serialize(_activityTracker.Activities, new JsonSerializerOptions { IncludeFields = true });
+            text.Text = jsonText;
         }
     }
 }

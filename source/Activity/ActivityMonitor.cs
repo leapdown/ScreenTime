@@ -1,16 +1,14 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading;
+﻿using System;
 
-namespace ScreenTime
+namespace ScreenTime.Activity
 {
     internal class ActivityMonitor : IDisposable
     {
         private IntPtr _keyboardHook;
         private IntPtr _mouseHook;
 
-        private const Int32 WH_KEYBOARD_LL = 13;
-        private const Int32 WH_MOUSE_LL = 14;
+        private const int WH_KEYBOARD_LL = 13;
+        private const int WH_MOUSE_LL = 14;
 
         private bool _disposed;
         private volatile bool _isActive;
@@ -42,7 +40,7 @@ namespace ScreenTime
         }
 
         private IntPtr OnMouseActivity(
-            Int32 Code, IntPtr wParam, IntPtr lParam)
+            int Code, IntPtr wParam, IntPtr lParam)
         {
             if (Code < 0)
             {
@@ -57,7 +55,7 @@ namespace ScreenTime
         }
 
         private IntPtr OnKeyboardActivity(
-            Int32 Code, IntPtr wParam, IntPtr lParam)
+            int Code, IntPtr wParam, IntPtr lParam)
         {
             if (Code < 0)
             {
