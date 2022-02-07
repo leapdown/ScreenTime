@@ -10,7 +10,6 @@ namespace ScreenTime.Activity
     internal class Activity
     {
         public DateTime StartTime;
-        public DateTime EndTime;
         public TimeSpan Duration;
     }
 
@@ -49,10 +48,23 @@ namespace ScreenTime.Activity
             {
                 var endTime = DateTime.Now;
 
+                // Break down cross-day activity into multiple activities
+                if (_startTime.Date < endTime.Date)
+                {
+                    var nextDay = _startTime.Date.AddDays(1);
+
+                    Activities.Add(new Activity
+                    {
+                        StartTime = _startTime,
+                        Duration = nextDay - _startTime,
+                    });
+
+                    _startTime = nextDay;
+                }
+
                 Activities.Add(new Activity
                 {
                     StartTime = _startTime,
-                    EndTime = endTime,
                     Duration = endTime - _startTime,
                 });
             }
